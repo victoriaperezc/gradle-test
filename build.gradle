@@ -1,0 +1,9 @@
+task sayHello << {
+    println 'hello'
+}
+
+task otherTask << {
+    println 'im running from graddle'
+}
+
+sayHello.dependsOn otherTask
