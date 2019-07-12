@@ -1,9 +1,21 @@
-task sayHello << {
-    println 'hello'
+plugins {
+    id "com.moowork.node" version "1.2.0"
+}
+ 
+apply plugin: 'base'
+apply plugin: "com.moowork.node"
+ 
+node {
+    version = "10.15.0"
+    download = true
+}
+ 
+task bundle(type: NpmTask, dependsOn: npmInstall) {
+    args = ['run', 'build']
 }
 
-task otherTask << {
-    println 'im running from graddle'
+task start(type: NpmTask, dependsOn: npmInstall) {
+    args = ['run', 'start']
 }
-
-sayHello.dependsOn otherTask
+ 
+assemble.dependsOn(bundle)
