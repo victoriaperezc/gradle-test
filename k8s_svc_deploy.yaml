@@ -33,4 +33,4 @@ spec:
       - name: react-app
         image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
         ports:
-        - containerPort: 80
+        - containerPort: 8080
