@@ -1,18 +1,3 @@
-kind: Service
-apiVersion: v1
-metadata:
-  name: react-app-service
-spec:
-  type: NodePort
-  selector:
-    app: react-app-deployment
-  ports:
-  - protocol: TCP
-    port: 31000
-    nodePort: 31000
-
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
