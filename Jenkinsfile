@@ -6,6 +6,13 @@ pipeline {
         DOCKER_IMAGE_NAME = "felipelujan/gradle-test"
     }
     stages {
+         stage('Build') {	
+             steps {	
+                echo 'Running build automation'	
+                sh 'chmod +x ./gradlew'	
+                sh './gradlew build --no-daemon'	
+            }	
+        }
        
         stage('Build Docker Image') {
             when {
