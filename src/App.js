@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-Your k8s deploys are now automated!!!.        </p>
+Edit src/App.js and save to reload!!!.        </p>
         <a
           className="App-link"
           href="https://reactjs.org"
