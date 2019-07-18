@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         //be sure to replace "felipelujan" with your own Docker Hub username
+        //changes
         DOCKER_IMAGE_NAME = "felipelujan/gradle-test"
     }
     stages {
