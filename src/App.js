@@ -15,7 +15,7 @@ Your k8s deployments are fully automated!!!.        </p>
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React ASAP!!!!!!!!!
+          Learn React TODAY!!!!!!!!!
         </a>
       </header>
     </div>
