@@ -1,5 +1,5 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: react-service-deployment
 spec:
@@ -20,7 +20,7 @@ metadata:
   labels:
     app: react-service
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: react-service
