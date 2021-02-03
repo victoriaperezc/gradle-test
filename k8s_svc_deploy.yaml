@@ -10,7 +10,7 @@ spec:
   - protocol: TCP
     port: 8080
     nodePort: 31000
-
+//test
 ---
 
 apiVersion: apps/v1
