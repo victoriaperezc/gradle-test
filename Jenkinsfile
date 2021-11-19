@@ -25,9 +25,7 @@ pipeline {
             }
         }
         stage('DeployToProduction') {
-            when {
-                branch 'master'
-            }
+          
             steps {
                 milestone(1)
                 kubernetesDeploy(
