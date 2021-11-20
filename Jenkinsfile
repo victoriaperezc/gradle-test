@@ -1,39 +1,31 @@
 pipeline {
-    agent any
-    environment {
-        //be sure to replace "felipelujan" with your own Docker Hub username
-        DOCKER_IMAGE_NAME = "victoriaperez/gradle-test"
+  agent any
+  stages {
+    stage('Docker Build') {
+      steps {
+        sh "docker build -t victoriaperez/podinfo:${env.BUILD_NUMBER} ."
+      }
     }
-    stages {      
-        stage('Build Docker Image') {
-            
-            steps {
-                script {
-                    app = docker.build(DOCKER_IMAGE_NAME)
-                }
-            }
+    stage('Docker Push') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh "docker push victoriaperez/podinfo:${env.BUILD_NUMBER}"
         }
-        stage('Push Docker Image') {
-            
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
-                    }
-                }
-            }
-        }
-        stage('DeployToProduction') {
-          
-            steps {
-                milestone(1)
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'k8s_svc_deploy.yaml',
-                    enableConfigSubstitution: true
-                )
-            }
-        }
+      }
     }
+    stage('Docker Remove Image') {
+      steps {
+        sh "docker rmi victoriaperez/podinfo:${env.BUILD_NUMBER}"
+      }
+    }
+    stage('Apply Kubernetes Files') {
+      steps {
+          withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh 'cat deployment.yaml | sed "s//$BUILD_NUMBER/g" | kubectl apply -f -'
+          sh 'kubectl apply -f _service.yaml'
+        }
+      }
+  }
+}
 }
