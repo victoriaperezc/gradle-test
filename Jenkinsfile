@@ -21,10 +21,12 @@ pipeline {
     }
     stage('Apply Kubernetes Files') {
       steps {
-          withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'cat deployment.yaml | sed "s//$BUILD_NUMBER/g" | kubectl apply -f -'
-          sh 'kubectl apply -f _service.yaml'
-        }
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'k8s_svc_deploy.yaml',
+                    enableConfigSubstitution: true
+               )
       }
   }
 }
