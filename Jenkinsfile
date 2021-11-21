@@ -19,13 +19,14 @@ pipeline {
         sh "docker rmi victoriaperez/podinfo:${env.BUILD_NUMBER}"
       }
     }
-      stage('Apply Kubernetes Files') {
-      steps {
-          withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'cat k8s_svc_deploy.yaml | sed "s//$BUILD_NUMBER/g" | kubectl apply -f -'
-          sh 'kubectl apply -f k8s_svc_deploy.yaml'
-        }
-      }
+      stage('DeployToProduction') {
+            steps {
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'k8s_svc_deploy.yaml',
+                    enableConfigSubstitution: true
+                )
   }
 }
   }
