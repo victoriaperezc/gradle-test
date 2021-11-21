@@ -27,6 +27,6 @@ pipeline {
                     configs: 'k8s_svc_deploy.yaml',
                     enableConfigSubstitution: true
                 )
+    }
   }
 }
-  }
